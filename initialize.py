@@ -123,8 +123,8 @@ def initialize_retriever():
     
     # チャンク分割用のオブジェクトを作成
     text_splitter = CharacterTextSplitter(
-        chunk_size=500,
-        chunk_overlap=50,
+        chunk_size=ct.CHUNK_SIZE,
+        chunk_overlap=ct.CHUNK_OVERLAP,
         separator="\n"
     )
 
@@ -135,7 +135,7 @@ def initialize_retriever():
     db = Chroma.from_documents(splitted_docs, embedding=embeddings)
 
     # ベクターストアを検索するRetrieverの作成
-    st.session_state.retriever = db.as_retriever(search_kwargs={"k": 3})
+    st.session_state.retriever = db.as_retriever(search_kwargs={"k": ct.DOCUMENT_COUNT})
 
 
 def initialize_session_state():
@@ -217,7 +217,15 @@ def file_load(path, docs_all):
         # ファイルの拡張子に合ったdata loaderを使ってデータ読み込み
         loader = ct.SUPPORTED_EXTENSIONS[file_extension](path)
         docs = loader.load()
-        docs_all.extend(docs)
+        if file_extension == ".csv" and len(docs) > 0:
+            # 各行のドキュメントを1つのテキストに統合
+            merged_text = "\n".join([doc.page_content for doc in docs])
+            # メタデータは最初のものを流用（必要に応じて調整）
+            merged_doc = docs[0]
+            merged_doc.page_content = merged_text
+            docs_all.append(merged_doc)
+        else:
+            docs_all.extend(docs)
 
 
 def adjust_string(s):
