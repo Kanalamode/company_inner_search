@@ -11,7 +11,7 @@ from logging.handlers import TimedRotatingFileHandler
 from uuid import uuid4
 import sys
 import unicodedata
-#from dotenv import load_dotenv
+from dotenv import load_dotenv
 import streamlit as st
 from docx import Document
 from langchain_community.document_loaders import WebBaseLoader
@@ -25,8 +25,7 @@ import constants as ct
 # 設定関連
 ############################################################
 # 「.env」ファイルで定義した環境変数の読み込み
-#load_dotenv()
-OPENAI_API_KEY = os.environ['OPENAI_API_KEY']
+load_dotenv()
 
 ############################################################
 # 関数定義
@@ -217,7 +216,6 @@ def file_load(path, docs_all):
         # ファイルの拡張子に合ったdata loaderを使ってデータ読み込み
         loader = ct.SUPPORTED_EXTENSIONS[file_extension](path)
         docs = loader.load()
-        print(f"Loaded doc[0]{docs[0]} : len(docs){len(docs)} ")
 
         if file_extension == ".csv" and len(docs) > 0:
             # 各行のドキュメントを1つのテキストに統合
