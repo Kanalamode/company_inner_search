@@ -130,6 +130,7 @@ ENV/
 env.bak/
 venv.bak/
 .streamlit/secrets.homl
+.streamlit/config.homl
 
 # Spyder project settings
 .spyderproject
