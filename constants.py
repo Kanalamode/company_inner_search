@@ -41,7 +41,7 @@ APP_BOOT_MESSAGE = "アプリが起動されました。"
 # ==========================================
 MODEL = "gpt-4o-mini"
 TEMPERATURE = 0.5
-DOCUMENT_COUNT = 5
+DOCUMENT_COUNT = 6 #社員名簿のcsvファイルで該当社員の表示数を増やしたいときに調整
 CHUNK_SIZE = 500
 CHUNK_OVERLAP = 50
 
