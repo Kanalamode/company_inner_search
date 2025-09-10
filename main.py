@@ -1,6 +1,10 @@
 """
 このファイルは、Webアプリのメイン処理が記述されたファイルです。
 """
+#pysqlite3をsqlite3モジュールとして差し替え
+__import__('pysqlite3')
+import sys
+sys.modules['sqlite3'] = sys.modules.pop('pysqlite3')
 
 ############################################################
 # 1. ライブラリの読み込み
